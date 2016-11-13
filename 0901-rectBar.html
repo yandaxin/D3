@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="d3.js"></script>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+</head>
+<body>
+	
+	<script>
+
+		var height=400;
+		var width=400;
+		var svg=d3.select("body").append("svg").attr("width",400).attr("height",400);
+		var dataset=[220,30,120,99,146,56];
+		var padding={top:20,right:20,bottom:20,left:20};
+		var rectStep=35;
+		var rectWidth=30;
+
+		var rect=svg.selectAll("rect").data(dataset).enter()
+		.append("rect").attr("fill","yellow")
+		.attr("x",function(d,i){
+			return padding.left+i*rectStep;
+
+		})
+		.attr("y",function(d){
+			return height-padding.bottom-d;
+		})
+		.attr("width",rectWidth)
+		.attr("height",function(d){
+			return d;
+		});
+
+
+		var text=svg.selectAll("text")
+		.data(dataset)
+		.enter()
+		.append("text")
+		.attr("fill","blue")
+		.attr("font-size","16px")
+		.attr("text-anchor","middle")
+		.attr("x",function(d,i){
+			return padding.left+i*rectStep;
+
+		})
+		.attr("y",function(d){
+			return height-padding.bottom-d;
+		})
+		.attr("dx",rectWidth/2)
+		.attr("dy","1em")
+		.text(function(d){
+			return d;
+		});
+
+
+
+		function draw()
+		{
+
+		d3.selectAll("rect,text").remove();//清除原有的元素，并进行重新绘制，不然排序无法实现
+
+		var rect=svg.selectAll("rect").data(dataset).enter()
+		.append("rect").attr("fill","yellow")
+		.attr("x",function(d,i){
+			return padding.left+i*rectStep;
+
+		})
+		.attr("y",function(d){
+			return height-padding.bottom-d;
+		})
+		.attr("width",rectWidth)
+		.attr("height",function(d){
+			return d;
+		});
+
+
+		var text=svg.selectAll("text")
+		.data(dataset)
+		.enter()
+		.append("text")
+		.attr("fill","blue")
+		.attr("font-size","16px")
+		.attr("text-anchor","middle")
+		.attr("x",function(d,i){
+			return padding.left+i*rectStep;
+
+		})
+		.attr("y",function(d){
+			return height-padding.bottom-d;
+		})
+		.attr("dx",rectWidth/2)
+		.attr("dy","1em")
+		.text(function(d){
+			return d;
+		});
+
+		//alert("wancheng");
+
+		}
+
+		function mySort()
+		{
+			dataset.sort(d3.descending);
+			//console.log(dataset);
+			draw();
+		}
+
+		function myadd(){
+			dataset.push(Math.ceil(Math.random()*400));
+			draw();
+		}
+
+
+	</script>
+
+	<button type="button" onclick="mySort()">排序</button>
+	<button type="button" onclick="myadd()">增加</button>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文件的操作</title>
+	<script type="text/javascript" src="d3.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+
+	    var csv=d3.dsv(",","text/csv;charset=gb2312");
+		csv("test.csv",function(error,csvdata){
+
+			if(error)
+			{
+				console.log(error);
+			}
+			else
+			{
+				console.log(csvdata);
+			}
+
+		});
+
+		d3.xml("test.xml",function(error,xmldata){
+			if (error) {
+				console.log("error");
+
+			}
+			else{
+				console.log(xmldata.getElementsByTagName("title")[0].innerHTML);
+
+				console.log(xmldata.getElementsByTagName("body")[0].innerHTML);
+
+				console.log(xmldata.getElementsByTagName("date")[0].innerHTML);
+			}
+
+		});
+
+
+		d3.text("test.txt",function(error,txtdata){
+			if(error)
+			{
+				console.log(error);
+			}
+			else{
+				d3.select("body").append("p").text(txtdata);
+			}
+
+		});
+	</script>
+	
+</body>
+</html>

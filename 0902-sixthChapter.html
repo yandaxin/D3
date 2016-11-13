@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>第六章</title>
+	<script type="text/javascript" src="d3.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+	//线段生成器
+		// var nods=[[100,200],[200,100],[300,80],[400,90]];
+		// var linePath=d3.svg.line().interpolate("basis");//生成一个线段生成器
+
+		// var svg=d3.select("body").append("svg")
+		// .attr("width","500")
+		// .attr("height","500");
+		// svg.append("path")
+		// .attr("d",linePath(nods))
+		// .attr("stroke","black")
+		// .attr("stroke-width","3")
+		// .attr("fill","none");
+//区域生成器
+
+		// var dataset=[80,120,130,70,60,90];
+		// var height=400;
+
+		// var araeP=d3.svg.area()
+		// .x(function(d,i) {return 50+i*80;})
+		// .y0(function(d,i){return height/2;})
+		// .y1(function(d,i){return height/2-d;});
+
+		// var svg=d3.select("body").append("svg")
+		// .attr("width","500")
+		// .attr("height","500");
+
+		// svg.append("path")
+		// .attr("d",araeP(dataset))
+		// .attr("stroke","black")
+		// .attr("stroke-width","3")
+		// .attr("fill","yellow");
+
+	//一个饼状图
+		var dataset=[{startAngle:0,endAngle:Math.PI *0.6},
+					{startAngle:Math.PI *0.6,endAngle:Math.PI *1.2},
+					{startAngle:Math.PI *1.2,endAngle:Math.PI *2}];
+
+		var svg=d3.select("body").append("svg")
+		.attr("width","500")
+		.attr("height","500");
+
+		var arcPath=d3.svg.arc()
+		.innerRadius(0)
+		.outerRadius(100);
+
+		var color=d3.scale.category10();
+
+		var pan=svg.selectAll("path")
+		.data(dataset)
+		.enter()
+		.append("path")
+		.attr("d",function(d){return arcPath(d);})
+		.attr("stroke","black")
+		.attr("stroke-width","3px")
+		.attr("transform","translate(250,250)")
+		.attr("fill",function(d,i){ return color(i);});
+
+
+
+
+	</script>
+	
+</body>
+</html>

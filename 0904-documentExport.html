@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文件的导出</title>
+
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.js"></script>
+	<script src="d3-downloadable.js"></script>
+	<script>
+		var width=500;
+		var height=500;
+
+		var svg=d3.select("body").append("svg")
+					.attr("width",width)
+					.attr("height",height);
+
+		svg.append("rect")
+			.attr("x",100)
+			.attr("y",100)
+			.attr("width",100)
+			.attr("height",100)
+			.style("fill","red");
+
+		svg.append("circle")
+			.attr("cx",300)
+			.attr("cy",150)
+			.attr("r",50)
+			.style("fill","blue");
+			
+
+		var d=downloadable()
+      		.filename('chart');
+
+		svg.call(d);
+
+
+
+	</script>
+	
+</body>
+</html>

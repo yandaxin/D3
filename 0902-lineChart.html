@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>一个折线图</title>
+	<script type="text/javascript" src="d3.js"></script>
+	<style type="text/css">
+		.axis path,
+		.axis linear{
+			fill:none;
+			stroke:black;
+			shape-rendering:crispEdges;
+		}
+
+		.axis text{
+			font-family: sans-serif;;
+			font-size: 11px;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+
+		var height=500;
+		var width=500;
+
+		var svg=d3.select("body").append("svg").attr("width",width).attr("height",height);
+		var dataset=[
+		{
+			country:"China",
+			gdp:[[2000,11920],[2001,13000],[2002,14550],[2003,16500],
+			[2004,19400],[2005,22870],[2006,27930],[2007,35000],[2008,45700],[2009,51000]]
+
+		},
+		{
+			country:"Japan",
+			gdp:[[2000,21920],[2001,29000],[2002,30550],[2003,33500],
+			[2004,37400],[2005,40870],[2006,42930],[2007,44000],[2008,45700],[2009,48000]]
+
+		}];
+
+		var padding ={top:50,right:50,bottom:50,left:50};
+
+		var gdpmax=0;
+		for(var i=0;i<dataset.length;i++)
+		{
+			var currGdp=d3.max(dataset[i].gdp,function(d){
+				return d[1];
+			});
+
+			if(currGdp>gdpmax)
+			{
+				gdpmax=currGdp;
+			}
+		}
+
+		console.log(gdpmax);
+
+
+		var xScale=d3.scale.linear()
+		.domain([2000,2009])
+		.range([0,width-padding.left-padding.right]);
+
+		var yScale=d3.scale.linear()
+		.domain([0,gdpmax*1.1])
+		.range([height-padding.top-padding.bottom,0]);
+
+
+		var linePath=d3.svg.line()
+		.x(function(d){return xScale(d[0]);})//因为给线段生成器传入的是GDP，看81行
+		.y(function(d){return yScale(d[1]);});//所以d[0]是年份,d[1]是这年的值
+
+
+		var colors=[d3.rgb(0,0,255),d3.rgb(0,255,0)];
+
+		svg.selectAll("path")
+		.data(dataset)
+		.enter()
+		.append("path")
+		.attr("transform","translate("+padding.left+","+padding.top+")")
+		.attr("d",function(d){return linePath(d.gdp);})
+		.attr("fill","none")
+		.attr("stroke-width",3)
+		.attr("stroke",function(d,i){return colors[i];});
+
+
+		var xAxis=d3.svg.axis()
+		.scale(xScale)
+		.ticks(5)
+		.tickFormat(d3.format("d"))
+		.orient("bottom");
+
+		var yAxis=d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+		svg.append("g")
+		.attr("class","axis")
+		.attr("transform","translate("+padding.left+","+(height-padding.bottom)+")")
+		.call(xAxis);
+
+		svg.append("g")
+		.attr("class","axis")
+		.attr("transform","translate("+padding.left+","+padding.top+")")
+		.call(yAxis);
+
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>比例尺和坐标轴</title>
+	<script type="text/javascript" src="d3.js"></script>
+</head>
+<body>
+	<script>
+
+	// 线性比例尺
+		var line=d3.scale.linear()
+		.domain([0,500])
+		.range([0,100]);//domain 定义域 range值域 linear 线性比例尺
+		console.log(line(250));
+		console.log(line.invert(30));
+		console.log(line.range());
+		line.rangeRound([0,100]);//对值域输出的值四舍五入
+		console.log(line(13.33));
+
+	// 指数和对数比例尺
+		var pow1=d3.scale.pow().exponent(3);//exponent 代表指数
+		console.log(pow1(3));
+
+		pow1.exponent(0.5);
+		console.log(pow1(16));
+
+	// 量子和分位比例尺
+		var quantize1=d3.scale.quantize()
+		.domain([0,10])
+		.range(["red","green","blue","yellow","black"]);
+
+		console.log(quantize1(1));
+		console.log(quantize1(3));
+		console.log(quantize1(5.5));
+		console.log(quantize1(7.7));
+		console.log(quantize1(9.0));
+
+
+		var quantize2=d3.scale.quantize()
+		.domain([50,0])
+		.range(["#888","#666","#444","#222","#000"]);
+		var r=[45,35,25,15,5];
+
+		var svg=d3.select("body").append("svg")
+		.attr("width",400)
+		.attr("height",400);
+
+		svg.selectAll("circle").data(r)
+		.enter().append("circle")
+		.attr("cx",function(d,i){
+			return 50+i*30;
+		})
+		.attr("cy",function(d){
+			return 50;
+		})
+		.attr("r",function(d){return d;})
+		.attr("fill",function(d){
+			return quantize2(d);
+		});
+
+		var color=d3.scale.category10();//获取颜色的序数比例尺
+
+
+
+	</script>
+</body>
+</html>
